@@ -51,7 +51,7 @@ jobs:
           echo "::set-output name=cdn_profile::$cdn_profile"
           echo "::set-output name=cdn_endpoint::$cdn_endpoint"
           
-  build: "Build"
+  build:
     name: "Build"
     runs-on: ubuntu-latest
     environment: prod
