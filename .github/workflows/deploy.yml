@@ -48,11 +48,11 @@ jobs:
           cdn_profile=$(terraform -chdir=infra output cdn_profile_name)
           cdn_endpoint=$(terraform -chdir=infra output cdn_endpoint_name)
 
-          echo "::set-output name=resource_group::$resource_group"
-          echo "::set-output name=storage_account::$storage_account"
-          echo "::set-output name=storage_container::$storage_container"
-          echo "::set-output name=cdn_profile::$cdn_profile"
-          echo "::set-output name=cdn_endpoint::$cdn_endpoint"
+          echo '::set-output name=resource_group::$resource_group'
+          echo '::set-output name=storage_account::$storage_account'
+          echo '::set-output name=storage_container::$storage_container'
+          echo '::set-output name=cdn_profile::$cdn_profile'
+          echo '::set-output name=cdn_endpoint::$cdn_endpoint'
           
   build:
     name: "Build"
