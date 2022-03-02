@@ -58,8 +58,8 @@ const computeSss = (salary: number) => {
 }
 
 export const computeContributions = (employeeType: IEmployerType, monthly: number): IMandatoryContributions => ({
-    sss: employeeType == 'pvt' ? computeSss(monthly) : NaN,
-    gsis: employeeType == 'govt' ? monthly * .09 : NaN,
+    sss: employeeType === 'pvt' ? computeSss(monthly) : NaN,
+    gsis: employeeType === 'govt' ? monthly * .09 : NaN,
     pagibig: 100,
     philHealth: monthly * .03 * .5
 })

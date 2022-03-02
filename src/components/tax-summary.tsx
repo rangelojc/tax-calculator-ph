@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { ListItem, ListItemLabel } from "baseui/list";
-import { peso } from '../lib/util';
-import { ALIGN, Radio, RadioGroup } from 'baseui/radio';
-import { Block } from 'baseui/block';
 import { useStyletron } from 'baseui';
-import { LabelLarge, LabelMedium, DisplayXSmall } from 'baseui/typography';
+import { Block } from 'baseui/block';
+import { ListItem, ListItemLabel } from "baseui/list";
+import { ALIGN, Radio, RadioGroup } from 'baseui/radio';
+import { DisplayXSmall, LabelMedium } from 'baseui/typography';
+import React, { useEffect, useState } from 'react';
+import { peso } from '../lib/util';
 
 const TaxSummary: React.FC<ITaxSummary> = (props) => {
     const [divisor, setDivisor] = useState(1)
     const [summary, setSummary] = useState(props);
-    const [css, theme] = useStyletron();
+    const [_, theme] = useStyletron();
 
     useEffect(() => {
         const sum = Object

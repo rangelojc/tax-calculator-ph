@@ -1,5 +1,5 @@
-import React from 'react'
 import { ListItem, ListItemLabel } from "baseui/list";
+import React from 'react';
 import { peso } from '../lib/util';
 
 interface IContributionProps {
@@ -14,7 +14,7 @@ const Contributions: React.FC<IContributionProps> = (props) => {
         <>
             <ul style={{ padding: 0 }}>
                 {
-                    props.employerType == 'pvt' &&
+                    props.employerType === 'pvt' &&
                     <ListItem
                         endEnhancer={() => (
                             peso.format(c.sss)
@@ -28,7 +28,7 @@ const Contributions: React.FC<IContributionProps> = (props) => {
                     </ListItem>
                 }
                 {
-                    props.employerType == 'govt' &&
+                    props.employerType === 'govt' &&
                     <ListItem
                         endEnhancer={() => (
                             peso.format(c.gsis)
