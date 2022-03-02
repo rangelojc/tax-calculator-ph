@@ -32,7 +32,7 @@ function App() {
   const [summary, setSummary] = useState<ITaxSummary>({
     gross: 0, taxable: 0, nonTaxable: 0, taxDue: 0, takeHome: 0
   })
-  const [_, theme] = useStyletron();
+  const [, theme] = useStyletron();
 
 
   useEffect(() => {

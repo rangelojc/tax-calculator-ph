@@ -9,7 +9,7 @@ import { peso } from '../lib/util';
 const TaxSummary: React.FC<ITaxSummary> = (props) => {
     const [divisor, setDivisor] = useState(1)
     const [summary, setSummary] = useState(props);
-    const [_, theme] = useStyletron();
+    const [, theme] = useStyletron();
 
     useEffect(() => {
         const sum = Object
