@@ -102,17 +102,13 @@ jobs:
           creds: ${{ secrets.AZURE_RBAC }}
 
       - name: Upload to blob storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.21.0
-          inlineScript: |
-              az storage blob upload-batch --account-name "${STORAGE_ACCOUNT}" -d "${STORAGE_CONTAINER}" -s ./build
+        run: |
+          az storage blob upload-batch --account-name "${STORAGE_ACCOUNT}" -d "${STORAGE_CONTAINER}" -s ./build
+      
       - name: Purge CDN endpoint
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.21.0
-          inlineScript: |
-            az cdn endpoint purge --content-paths  "/*" --profile-name "${CDN_PROFILE}" --name "${CDN_ENDPOINT}" --resource-group "${RESOURCE_GROUP}"
+        run: |
+          az cdn endpoint purge --content-paths  "/*" --profile-name "${CDN_PROFILE}" --name "${CDN_ENDPOINT}" --resource-group "${RESOURCE_GROUP}"
+      
       - name: Azure Logout
         run: |
-            az logout
+          az logout
