@@ -48,7 +48,7 @@ jobs:
           cdn_profile=$(terraform -chdir=infra output cdn_profile_name)
           cdn_endpoint=$(terraform -chdir=infra output cdn_endpoint_name)
 
-          echo "::set-output name=cdn_endpoint::$resource_group"
+          echo "::set-output name=resource_group::$resource_group"
           echo "::set-output name=storage_account::$storage_account"
           echo "::set-output name=storage_container::$storage_container"
           echo "::set-output name=cdn_profile::$cdn_profile"
@@ -88,9 +88,9 @@ jobs:
     environment: prod
     env:
       STORAGE_ACCOUNT: ${{ needs.infra.outputs.storage_account }}
-      STORAGE_CONTAINER: ${{ needs.infra.outputs.storage_account }}
-      CDN_PROFILE: ${{ needs.infra.outputs.storage_account }}
-      CDN_ENDPOINT: ${{ needs.infra.outputs.storage_account }}
+      STORAGE_CONTAINER: ${{ needs.infra.outputs.storage_container }}
+      CDN_PROFILE: ${{ needs.infra.outputs.cdn_profile }}
+      CDN_ENDPOINT: ${{ needs.infra.outputs.cdn_endpoint }}
       RESOURCE_GROUP: ${{ needs.infra.outputs.resource_group }}
 
     steps:
