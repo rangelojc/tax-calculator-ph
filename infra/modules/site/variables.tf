@@ -7,3 +7,11 @@ variable "site_id" {
   type        = string
   description = "id of the website"
 }
+
+
+variable "location" {
+  type        = string
+  default     = "southeastasia"
+  description = "location of the website"
+}
+
