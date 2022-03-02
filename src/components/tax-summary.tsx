@@ -14,14 +14,12 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
     useEffect(() => {
         const sum = Object
             .keys(props)
-            .filter(q => q != 'children')
+            .filter(q => q !== 'children')
             .map(q => q as keyof ITaxSummary)
             .reduce((val, key) => {
                 return { ...val, [key]: props[key] / divisor }
 
             }, props)
-        console.log('props', props)
-        console.log('summary', sum)
         setSummary(sum)
     }, [divisor, props])
 
