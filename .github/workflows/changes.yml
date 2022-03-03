@@ -32,8 +32,6 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_wrapper: false
 
       - name: Terraform Init
         id: init
@@ -45,7 +43,7 @@ jobs:
 
       - name: Plan
         id: plan
-        run: terraform -chdir=infra plan -no-color
+        run: terraform -chdir=infra plan -no-color > plan.log
 
       - name: Update Pull Request
         uses: actions/github-script@0.9.0
@@ -55,6 +53,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const fs = require('fs');
+            const plan = fs.readFileSync("plan.log", "utf-8");
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
