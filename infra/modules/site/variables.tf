@@ -8,6 +8,11 @@ variable "site_id" {
   description = "id of the website"
 }
 
+variable "domain" {
+  type        = string
+  description = "domain of the website"
+}
+
 
 variable "location" {
   type        = string
