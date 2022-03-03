@@ -67,4 +67,12 @@ resource "azurerm_cdn_endpoint_custom_domain" "web" {
   name            = "web-domain"
   cdn_endpoint_id = azurerm_cdn_endpoint.web.id
   host_name       = var.domain
+  cdn_managed_https {
+    certificate_type = "Shared"
+    protocol_type    = "IPBased"
+  }
+}
+
+resource "" {
+
 }
