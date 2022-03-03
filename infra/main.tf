@@ -8,6 +8,10 @@ module "website" {
       enable_ssl    = false
     },
     {
+      domain = "tax-calculator.jclarino.com"
+      enable_ssl    = true
+    },
+    {
       domain = "tax-calc.jclarino.com"
       enable_ssl    = true
     }
