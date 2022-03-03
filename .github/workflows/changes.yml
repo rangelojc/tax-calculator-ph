@@ -1,0 +1,82 @@
+
+name: "Validate Infrastructure"
+on:
+  pull_request:
+    types: 
+      - opened
+      - reopened
+      - synchronize
+    branches:    
+      - 'main'
+jobs:
+  infra:
+    name: "Validate Infrastructure"
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+    outputs:
+      resource_group: ${{ steps.vars.outputs.resource_group }}
+      storage_account: ${{ steps.vars.outputs.storage_account }}
+      storage_container: ${{ steps.vars.outputs.storage_container }}
+      cdn_profile: ${{ steps.vars.outputs.cdn_profile }}
+      cdn_endpoint: ${{ steps.vars.outputs.cdn_endpoint }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        id: init
+        run: terraform -chdir=infra init
+
+      - name: Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Plan
+        id: plan
+        run: terraform -chdir=infra plan -no-color
+
+      - name: Update Pull Request
+        uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
