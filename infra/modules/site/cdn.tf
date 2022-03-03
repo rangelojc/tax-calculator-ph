@@ -66,10 +66,15 @@ resource "azurerm_cdn_endpoint_custom_domain" "web" {
   name            = "web-domain"
   cdn_endpoint_id = azurerm_cdn_endpoint.web.id
   host_name       = var.domain
-}
-
-resource "null_resource" "cdn_ssl" {
-  provisioner "local-exec" {
-    command = "az cdn custom-domain enable-https -g ${azurerm_resource_group.rg.name} --profile-name ${azurerm_cdn_profile.web.name} --endpoint-name ${azurerm_cdn_endpoint.web.name} -n web-domain"
+  cdn_managed_https {
+    certificate_type = "Dedicated"
+    protocol_type    = "ServerNameIndication"
+    tls_version      = "TLS12"
   }
 }
+
+# resource "null_resource" "cdn_ssl" {
+#   provisioner "local-exec" {
+#     command = "az cdn custom-domain enable-https -g ${azurerm_resource_group.rg.name} --profile-name ${azurerm_cdn_profile.web.name} --endpoint-name ${azurerm_cdn_endpoint.web.name} -n web-domain"
+#   }
+# }
