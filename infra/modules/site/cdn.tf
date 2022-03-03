@@ -1,12 +1,12 @@
 resource "azurerm_cdn_profile" "web" {
-  name                = "cdn-${var.prefix}-${var.site_id}"
+  name                = "cdn-${var.prefix}-${var.site_id}-web"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "Standard_Microsoft"
 }
 
 resource "azurerm_cdn_endpoint" "web" {
-  name                = "cdn-ep-${var.prefix}-${var.site_id}"
+  name                = "cdn-ep-${var.prefix}-${var.site_id}-web"
   profile_name        = azurerm_cdn_profile.web.name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -62,14 +62,22 @@ resource "azurerm_cdn_endpoint" "web" {
 
 }
 
-resource "azurerm_cdn_endpoint_custom_domain" "web" {
-  name            = "web-domain"
+resource "azurerm_cdn_endpoint_custom_domain" "custom_domains" {
+  for_each = {
+    for index, cd in var.custom_domains :
+    index => cd
+  }
+  name            = replace(each.value.domain, ".", "-")
   cdn_endpoint_id = azurerm_cdn_endpoint.web.id
-  host_name       = var.domain
-  cdn_managed_https {
-    certificate_type = "Dedicated"
-    protocol_type    = "ServerNameIndication"
-    tls_version      = "TLS12"
+  host_name       = each.value.domain
+
+  dynamic "cdn_managed_https" {
+    for_each = each.value.enable_ssl ? [] : [1]
+    content {
+      certificate_type = "Dedicated"
+      protocol_type    = "ServerNameIndication"
+      tls_version      = "TLS12"
+    }
   }
 }
 

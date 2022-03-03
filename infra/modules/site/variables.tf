@@ -8,9 +8,12 @@ variable "site_id" {
   description = "id of the website"
 }
 
-variable "domain" {
-  type        = string
-  description = "domain of the website"
+variable "custom_domains" {
+  type = list(object({
+    domain     = string
+    enable_ssl = bool
+  }))
+  description = "customs domains of the website"
 }
 
 
