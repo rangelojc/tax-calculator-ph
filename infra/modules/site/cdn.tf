@@ -72,7 +72,7 @@ resource "azurerm_cdn_endpoint_custom_domain" "custom_domains" {
   host_name       = each.value.domain
 
   dynamic "cdn_managed_https" {
-    for_each = each.value.enable_ssl ? [] : [1]
+    for_each = each.value.enable_ssl ? [1] : []
     content {
       certificate_type = "Dedicated"
       protocol_type    = "ServerNameIndication"
