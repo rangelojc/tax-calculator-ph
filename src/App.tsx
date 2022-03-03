@@ -46,7 +46,7 @@ function App() {
   return (
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>
-        <Block padding={'1rem'} width={['100%', '100%', '960px', '1140px']} margin={'auto'} >
+        <Block marginTop={[0, 0, '5rem', '5rem']} padding={'1rem'} width={['100%', '100%', '960px', '1140px']} margin={'auto'} >
           <FlexGrid
             flexGridColumnCount={[1, 1, 2, 2]}
             flexGridColumnGap="scale800"
@@ -61,7 +61,7 @@ function App() {
                   caption={() => "Base monthly income with mandatory contributions"}
                 >
 
-                  <Input value={monthly} onChange={(e) => setMonthly((e.currentTarget.value))} />
+                  <Input value={monthly} onChange={(e) => setMonthly((e.currentTarget.value ?? '0'))} />
                 </FormControl>
                 <FormControl
                   label={() => "Employer Type"}
@@ -88,7 +88,10 @@ function App() {
               </Panel>
 
 
-              <Panel style={{ marginTop: theme.sizing.scale800 }}>
+              <Panel style={
+                { marginTop: theme.sizing.scale800 }
+
+              }>
                 <LabelLarge>Contributions</LabelLarge>
                 <Contributions employerType={employerType} contributions={contributions} />
               </Panel>
@@ -98,7 +101,13 @@ function App() {
             >
 
 
-              <Panel>
+
+              <Panel style={
+                {
+                  backgroundColor: theme.colors.backgroundSecondary,
+                  padding: theme.sizing.scale800
+                }
+              }>
                 <LabelLarge>Summary</LabelLarge>
                 <TaxSummary {...summary} />
               </Panel>

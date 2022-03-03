@@ -29,8 +29,8 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
                 <ListItem
                     endEnhancer={() => (
                         peso.format(summary.gross)
-                    )}
-                >
+                    )}>  
+                
                     <ListItemLabel
                         description
                     >Gross Income</ListItemLabel>

@@ -35,7 +35,7 @@ const Contributions: React.FC<IContributionProps> = (props) => {
                         )}
                     >
                         <ListItemLabel
-                            description={'Contribution of 9%'}
+                            description={'GSIS contribution is 9% of monthly income'}
                         >GSIS</ListItemLabel>
                     </ListItem>
                 }
