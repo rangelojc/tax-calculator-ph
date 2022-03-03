@@ -9,7 +9,7 @@ resource "azurerm_storage_account" "web" {
 
   allow_blob_public_access = true
   tags = {
-    prefix = "${var.prefix}"
+    prefix = var.prefix
   }
 }
 
