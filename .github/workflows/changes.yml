@@ -66,13 +66,6 @@ jobs:
 
             </details>
 
-            <details><summary>Show Plan</summary>
-
-            \`\`\`\n
-            ${PLAN}
-            \`\`\`
-
-            </details>
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
