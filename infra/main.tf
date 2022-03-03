@@ -4,15 +4,7 @@ module "website" {
   site_id = "tax"
   custom_domains = [
     {
-      domain = "tax.jclarino.com"
-      enable_ssl    = false
-    },
-    {
-      domain = "tax-calculator.jclarino.com"
-      enable_ssl    = true
-    },
-    {
-      domain = "tax-calc.jclarino.com"
+      domain = "taxph.jclarino.com"
       enable_ssl    = true
     }
   ]
