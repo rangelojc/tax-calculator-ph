@@ -63,7 +63,15 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN}
+            ${{ process.env.PLAN }}
+            \`\`\`
+
+            </details>
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${{ PLAN }}
             \`\`\`
 
             </details>
