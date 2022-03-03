@@ -72,7 +72,3 @@ resource "azurerm_cdn_endpoint_custom_domain" "web" {
     protocol_type    = "IPBased"
   }
 }
-
-resource "" {
-
-}
