@@ -1,17 +1,19 @@
 export const computeAnnual = (monthlySalary: number) => monthlySalary * 12;
 export const computeTaxableIncome = (annualSalary: number, contributions: IMandatoryContributions, benefits: number): ITaxable => {
     let gross = annualSalary + benefits
-    let nonTaxable = Object.keys(contributions)
+    let totalContribution = Object.keys(contributions)
         .map(q => q as keyof typeof contributions)
         .filter(q => !isNaN(contributions[q]))
         .reduce((total, key) => total += contributions[key], 0) * 12
-    
+    let nonTaxable = totalContribution
+
     if (benefits > 90000) {
         nonTaxable += 90000
     }
     return {
         gross,
         nonTaxable,
+        totalContribution,
         taxable: gross - nonTaxable
     }
 }

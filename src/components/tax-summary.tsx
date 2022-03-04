@@ -37,7 +37,7 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
                 </ListItem>
                 <ListItem
                     endEnhancer={() => (
-                        peso.format(summary.nonTaxable)
+                        peso.format(summary.totalContribution)
                     )}
                 >
                     <ListItemLabel>Non Taxable Income</ListItemLabel>

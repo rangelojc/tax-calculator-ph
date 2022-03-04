@@ -9,6 +9,7 @@ interface ITaxable {
     gross: number
     taxable: number
     nonTaxable: number
+    totalContribution: number
 }
 
 interface IBracket {
