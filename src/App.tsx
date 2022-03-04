@@ -67,7 +67,7 @@ function App() {
   const incomeHandler = (ev: any) => {
     setDirty(true);
     let input = ev.currentTarget.value ?? "0";
-    if (ev.currentTarget.value == "") setMonthlyError("Required");
+    if (ev.currentTarget.value === "") setMonthlyError("Required");
     else if (!/^[0-9]*$/.test(input))
       setMonthlyError("Must only contain digits [0-9]");
     else setMonthlyError(undefined);
