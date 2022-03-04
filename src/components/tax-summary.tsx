@@ -1,11 +1,11 @@
 import { useStyletron } from "baseui";
 import { Block } from "baseui/block";
+import { ChevronRight } from "baseui/icon";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { ALIGN, Radio, RadioGroup } from "baseui/radio";
-import { DisplayXSmall, LabelMedium } from "baseui/typography";
+import { LabelLarge, LabelSmall } from "baseui/typography";
 import React, { useEffect, useState } from "react";
 import { peso } from "../lib/util";
-import { ChevronRight } from "baseui/icon";
 
 const TaxSummary: React.FC<ITaxSummary> = (props) => {
   const [divisor, setDivisor] = useState(1);
@@ -51,12 +51,12 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
           padding={"1rem"}
           margin={"2rem"}
         >
-          <DisplayXSmall color={theme.colors.buttonPrimaryText}>
+          <LabelLarge color={theme.colors.buttonPrimaryText}>
             {peso.format(summary.taxDue)}
-          </DisplayXSmall>
-          <LabelMedium color={theme.colors.buttonPrimaryText}>
+          </LabelLarge>
+          <LabelSmall color={theme.colors.buttonPrimaryText}>
             Tax Due
-          </LabelMedium>
+          </LabelSmall>
         </Block>
         <Block
           backgroundColor={theme.colors.backgroundInv}
@@ -68,14 +68,14 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
           padding={"1rem"}
           margin={"2rem"}
         >
-          <DisplayXSmall color={theme.colors.buttonPrimaryText}>
+          <LabelLarge color={theme.colors.buttonPrimaryText}>
             {peso.format(
               summary.gross - summary.totalContribution - summary.taxDue
             )}
-          </DisplayXSmall>
-          <LabelMedium color={theme.colors.buttonPrimaryText}>
+          </LabelLarge>
+          <LabelSmall color={theme.colors.buttonPrimaryText}>
             Take home pay
-          </LabelMedium>
+          </LabelSmall>
         </Block>
       </ul>
       <RadioGroup
