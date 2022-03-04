@@ -61,5 +61,5 @@ export const computeContributions = (employeeType: IEmployerType, monthly: numbe
     sss: employeeType === 'pvt' ? computeSss(monthly) : NaN,
     gsis: employeeType === 'govt' ? monthly * .09 : NaN,
     pagibig: 100,
-    philHealth: monthly * .03 * .5
+    philHealth: (monthly * .03 * .5 >= 1800) ? 1800 : monthly * .03 * .5
 })
