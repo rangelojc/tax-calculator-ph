@@ -1,5 +1,5 @@
 
-name: "Validate Infrastructure"
+name: "Validate changes"
 on:
   pull_request:
     types: 
@@ -8,7 +8,60 @@ on:
       - synchronize
     branches:    
       - 'main'
+
 jobs:
+  format:
+    name: "Validate format"
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install packages
+        run: yarn
+
+      - name: Check formatting
+        id: check
+        run: yarn format:check
+        continue-on-error: true
+
+      - name: Update Pull Request
+        uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
+        env:
+          CHECK: "${{ steps.check.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Prettier format check 📖
+
+            <details><summary>Show Details</summary>
+
+            \`\`\`\n
+            ${process.env.CHECK}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
   infra:
     name: "Validate Infrastructure"
     runs-on: ubuntu-latest
