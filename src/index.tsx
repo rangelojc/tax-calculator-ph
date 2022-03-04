@@ -3,19 +3,23 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-
+import Providers from "./Providers";
 const rootElement = document.getElementById("root");
 if (rootElement.hasChildNodes()) {
   ReactDOM.hydrate(
     <React.StrictMode>
-      <App />
+      <Providers>
+        <App />
+      </Providers>
     </React.StrictMode>,
     rootElement
   );
 } else {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <Providers>
+        <App />
+      </Providers>
     </React.StrictMode>,
     rootElement
   );
