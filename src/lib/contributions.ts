@@ -57,7 +57,7 @@ const computeSss = (salary: number) => {
   const mpf = matrix
     .filter((q) => bracket(q[0], q[1])(salary))
     .reduce((p, q) => (p += q[3]), 0);
-  return { sss, mpf }
+  return { sss, mpf };
 };
 
 const computePhilHealth = (monthly: number) => {

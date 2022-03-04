@@ -35,16 +35,11 @@ const Panel = styled("div", (props) => ({
 const InfoLink: React.FC<{ link: string; linkLabel: string }> = (props) => {
   return (
     <ParagraphSmall>
-      <Block
-        display={["flex"]}
-        flexDirection={["column", "column", "row"]}
-        gridGap={["0", "0", "3px"]}
-      >
-        <span>{props.children}:</span>
-        <a href={props.link} target={"_blank"} rel="noreferrer">
-          {props.linkLabel}
-        </a>
-      </Block>
+      <span>{props.children}:</span>
+      <br />
+      <a href={props.link} target={"_blank"} rel="noreferrer">
+        {props.linkLabel}
+      </a>
     </ParagraphSmall>
   );
 };
@@ -74,10 +69,7 @@ function App() {
   useEffect(() => {
     let _monthly = isNaN(parseFloat(monthly)) ? 0 : parseFloat(monthly);
     const annual = computeAnnual(_monthly);
-    const contributions = computeContributions(
-      employerType,
-      _monthly
-    );
+    const contributions = computeContributions(employerType, _monthly);
     const taxable = computeTaxableIncome(annual, contributions, 0);
     setContributions(contributions);
     const taxDue = computeTaxDue(taxable.taxable, use2023 ? "2023" : "2018");
@@ -178,6 +170,7 @@ function App() {
                   >
                     Where does your tax go?
                   </InfoLink>
+
                   <InfoLink
                     link="https://www.officialgazette.gov.ph/downloads/2017/12dec/20171219-RA-10963-RRD.pdf"
                     linkLabel="RA 10963 - Section 5"
