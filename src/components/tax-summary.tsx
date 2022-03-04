@@ -5,6 +5,7 @@ import { ALIGN, Radio, RadioGroup } from "baseui/radio";
 import { DisplayXSmall, LabelMedium } from "baseui/typography";
 import React, { useEffect, useState } from "react";
 import { peso } from "../lib/util";
+import { ChevronRight } from "baseui/icon";
 
 const TaxSummary: React.FC<ITaxSummary> = (props) => {
   const [divisor, setDivisor] = useState(1);
@@ -27,8 +28,15 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
         <ListItem endEnhancer={() => peso.format(summary.gross)}>
           <ListItemLabel description>Gross Income</ListItemLabel>
         </ListItem>
-        <ListItem endEnhancer={() => peso.format(summary.totalContribution)}>
+        <ListItem>
           <ListItemLabel>Non Taxable Income</ListItemLabel>
+        </ListItem>
+        <ListItem
+          sublist
+          artwork={ChevronRight}
+          endEnhancer={() => peso.format(summary.totalContribution)}
+        >
+          <ListItemLabel sublist>Contributions</ListItemLabel>
         </ListItem>
         <ListItem endEnhancer={() => peso.format(summary.taxable)}>
           <ListItemLabel>Taxable Income</ListItemLabel>
