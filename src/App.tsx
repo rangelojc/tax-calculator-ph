@@ -56,6 +56,7 @@ function App() {
   const [employerType, setEmployerType] = useState<IEmployerType>("pvt");
   const [contributions, setContributions] = useState<IMandatoryContributions>({
     sss: 0,
+    sssMpf: 0,
     gsis: 0,
     pagibig: 0,
     philHealth: 0,
@@ -71,17 +72,19 @@ function App() {
   const [, theme] = useStyletron();
 
   useEffect(() => {
-    const annual = computeAnnual(parseFloat(monthly));
+    let _monthly = isNaN(parseFloat(monthly)) ? 0 : parseFloat(monthly);
+    const annual = computeAnnual(_monthly);
     const contributions = computeContributions(
       employerType,
-      parseFloat(monthly)
+      _monthly
     );
     const taxable = computeTaxableIncome(annual, contributions, 0);
     setContributions(contributions);
+    const taxDue = computeTaxDue(taxable.taxable, use2023 ? "2023" : "2018");
     setSummary({
       ...taxable,
-      taxDue: computeTaxDue(taxable.taxable, use2023 ? "2023" : "2018"),
-      takeHome: 0,
+      taxDue,
+      takeHome: taxable.gross - taxDue - taxable.totalContribution,
     });
   }, [monthly, employerType, use2023]);
 

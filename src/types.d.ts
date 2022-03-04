@@ -2,6 +2,7 @@ interface IMandatoryContributions {
   philHealth: number;
   pagibig: number;
   sss: number;
+  sssMpf: number;
   gsis: number;
 }
 

@@ -21,6 +21,13 @@ const Contributions: React.FC<IContributionProps> = (props) => {
             <ListItemLabel>SSS</ListItemLabel>
           </ListItem>
         )}
+        {props.employerType === "pvt" && (
+          <ListItem endEnhancer={() => peso.format(c.sssMpf)}>
+            <ListItemLabel
+              description='Mandatory Provident Fund (Employee)'
+            >SSS MPF</ListItemLabel>
+          </ListItem>
+        )}
         {props.employerType === "govt" && (
           <ListItem endEnhancer={() => peso.format(c.gsis)}>
             <ListItemLabel>GSIS</ListItemLabel>
@@ -30,7 +37,9 @@ const Contributions: React.FC<IContributionProps> = (props) => {
           <ListItemLabel>Philhealth</ListItemLabel>
         </ListItem>
         <ListItem endEnhancer={() => peso.format(c.pagibig)}>
-          <ListItemLabel>Pag-ibig</ListItemLabel>
+          <ListItemLabel
+            description='Also displayed as HDMF on payslips'
+          >Pag-ibig</ListItemLabel>
         </ListItem>
         <ListItem endEnhancer={() => peso.format(total)}>
           <ListItemLabel>Total</ListItemLabel>
