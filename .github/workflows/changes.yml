@@ -35,6 +35,9 @@ jobs:
         run: yarn format:check
         continue-on-error: true
 
+      - name: Echo output
+        run: echo ${{ steps.check.outputs.stdout }}
+
       - name: Update Pull Request
         uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
