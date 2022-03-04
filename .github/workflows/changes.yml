@@ -36,7 +36,9 @@ jobs:
         continue-on-error: true
 
       - name: Echo output
-        run: echo ${{ steps.check.outputs.stdout }}
+        env:
+          CHECK: "${{ steps.plan.outputs.stdout }}"
+        run: echo $CHECK
 
       - name: Update Pull Request
         uses: actions/github-script@0.9.0
