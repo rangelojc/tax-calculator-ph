@@ -50,6 +50,25 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
             Tax Due
           </LabelMedium>
         </Block>
+        <Block
+          backgroundColor={theme.colors.backgroundInv}
+          color={"white"}
+          display={"flex"}
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          padding={"1rem"}
+          margin={"2rem"}
+        >
+          <DisplayXSmall color={theme.colors.buttonPrimaryText}>
+            {peso.format(
+              summary.gross - summary.totalContribution - summary.taxDue
+            )}
+          </DisplayXSmall>
+          <LabelMedium color={theme.colors.buttonPrimaryText}>
+            Take home pay
+          </LabelMedium>
+        </Block>
       </ul>
       <RadioGroup
         value={divisor.toString()}

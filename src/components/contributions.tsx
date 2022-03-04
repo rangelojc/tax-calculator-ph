@@ -18,42 +18,19 @@ const Contributions: React.FC<IContributionProps> = (props) => {
       <ul style={{ padding: 0 }}>
         {props.employerType === "pvt" && (
           <ListItem endEnhancer={() => peso.format(c.sss)}>
-            <ListItemLabel
-              description={
-                <span>
-                  SSS 2021{" "}
-                  <a href="https://www.sss.gov.ph/sss/DownloadContent?fileName=ci2020-033.pdf&fbclid=IwAR2e4H0g-mV40qoMUWRpl5-VjfP2Czdlvt93F8Kw6FJvOp95IKrPkn8l8r8">
-                    Contributions
-                  </a>
-                </span>
-              }
-            >
-              SSS
-            </ListItemLabel>
+            <ListItemLabel>SSS</ListItemLabel>
           </ListItem>
         )}
         {props.employerType === "govt" && (
           <ListItem endEnhancer={() => peso.format(c.gsis)}>
-            <ListItemLabel
-              description={"GSIS contribution is 9% of monthly income"}
-            >
-              GSIS
-            </ListItemLabel>
+            <ListItemLabel>GSIS</ListItemLabel>
           </ListItem>
         )}
         <ListItem endEnhancer={() => peso.format(c.philHealth)}>
-          <ListItemLabel description="Premium rate of 3%, equally shared with employer">
-            Philhealth
-          </ListItemLabel>
+          <ListItemLabel>Philhealth</ListItemLabel>
         </ListItem>
         <ListItem endEnhancer={() => peso.format(c.pagibig)}>
-          <ListItemLabel
-            description={`2% of the maximum monthly compensation of ${peso.format(
-              5000
-            )}`}
-          >
-            Pag-ibig
-          </ListItemLabel>
+          <ListItemLabel>Pag-ibig</ListItemLabel>
         </ListItem>
         <ListItem endEnhancer={() => peso.format(total)}>
           <ListItemLabel>Total</ListItemLabel>
