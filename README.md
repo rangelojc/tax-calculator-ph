@@ -6,6 +6,7 @@ Calculate your income tax.
 
 ## Contributions formula
 
+
 ```ts
 const computeSss = (salary: number) => {
     const matrix = [
