@@ -1,5 +1,7 @@
 import { ListItem, ListItemLabel } from "baseui/list";
+import { LabelMedium } from "baseui/typography";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { peso } from "../lib/util";
 
 interface IContributionProps {
@@ -7,7 +9,20 @@ interface IContributionProps {
   employerType: IEmployerType;
 }
 
+const ContributionItem = (props: {
+  value: number;
+  children: React.ReactNode;
+  desc?: string;
+}) => (
+  <ListItem
+    endEnhancer={() => <LabelMedium>{peso.format(props.value)}</LabelMedium>}
+  >
+    <ListItemLabel description={props.desc}>{props.children}</ListItemLabel>
+  </ListItem>
+);
+
 const Contributions: React.FC<IContributionProps> = (props) => {
+  const { t } = useTranslation();
   const { contributions: c } = props;
   const total = Object.keys(c)
     .map((q) => q as keyof typeof c)
@@ -17,33 +32,35 @@ const Contributions: React.FC<IContributionProps> = (props) => {
     <>
       <ul style={{ padding: 0 }}>
         {props.employerType === "pvt" && (
-          <ListItem endEnhancer={() => peso.format(c.sss)}>
-            <ListItemLabel>SSS</ListItemLabel>
-          </ListItem>
+          <ContributionItem value={c.sss}>
+            {t("contributions.sss.label")}
+          </ContributionItem>
         )}
         {props.employerType === "pvt" && (
-          <ListItem endEnhancer={() => peso.format(c.sssMpf)}>
-            <ListItemLabel description="Mandatory Provident Fund (Employee)">
-              SSS MPF
-            </ListItemLabel>
-          </ListItem>
+          <ContributionItem
+            value={c.sssMpf}
+            desc={t("contributions.sssMpf.desc")}
+          >
+            {t("contributions.sssMpf.label")}
+          </ContributionItem>
         )}
         {props.employerType === "govt" && (
-          <ListItem endEnhancer={() => peso.format(c.gsis)}>
-            <ListItemLabel>GSIS</ListItemLabel>
-          </ListItem>
+          <ContributionItem value={c.gsis}>
+            {t("contributions.gsis.label")}
+          </ContributionItem>
         )}
-        <ListItem endEnhancer={() => peso.format(c.philHealth)}>
-          <ListItemLabel>Philhealth</ListItemLabel>
-        </ListItem>
-        <ListItem endEnhancer={() => peso.format(c.pagibig)}>
-          <ListItemLabel description="Also displayed as HDMF on payslips">
-            Pag-ibig
-          </ListItemLabel>
-        </ListItem>
-        <ListItem endEnhancer={() => peso.format(total)}>
-          <ListItemLabel>Total</ListItemLabel>
-        </ListItem>
+        <ContributionItem value={c.philHealth}>
+          {t("contributions.philHealth.label")}
+        </ContributionItem>
+        <ContributionItem
+          value={c.pagibig}
+          desc={t("contributions.pagibig.desc")}
+        >
+          {t("contributions.pagibig.label")}
+        </ContributionItem>
+        <ContributionItem value={total}>
+          {t("contributions.total")}
+        </ContributionItem>
       </ul>
     </>
   );
