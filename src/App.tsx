@@ -224,7 +224,7 @@ function App() {
                   </InfoLink>
                   <InfoLink
                     link="https://www.pagibigfund.gov.ph/document/pdf/governance/43.1_on_institutional_matters/IRR%20of%20RA%20No.%209679.pdf"
-                    linkLabel={t("info.9679")}
+                    linkLabel={t("info.ra9679")}
                   >
                     {t("info.pagibig")}
                   </InfoLink>
