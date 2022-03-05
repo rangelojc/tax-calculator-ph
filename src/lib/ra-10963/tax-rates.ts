@@ -4,22 +4,23 @@ export const computeTaxableIncome = (
   contributions: IMandatoryContributions,
   benefits: number
 ): ITaxable => {
-  let gross = annualSalary + benefits;
+  let _benefits = benefits * 12;
+  let gross = annualSalary + _benefits;
   let totalContribution =
     Object.keys(contributions)
       .map((q) => q as keyof typeof contributions)
       .filter((q) => !isNaN(contributions[q]))
       .reduce((total, key) => (total += contributions[key]), 0) * 12;
-  let nonTaxable = totalContribution;
 
-  if (benefits > 90000) {
-    nonTaxable += 90000;
-  }
+  let nonTaxable = _benefits > 90000 ? 90000 : _benefits;
+  let _taxable = gross - totalContribution - nonTaxable;
+
   return {
     gross,
     nonTaxable,
     totalContribution,
-    taxable: gross - nonTaxable,
+    taxable: _taxable < 0 ? 0 : _taxable,
+    deminimis: _benefits,
   };
 };
 

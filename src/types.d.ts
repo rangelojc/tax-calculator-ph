@@ -6,11 +6,14 @@ interface IMandatoryContributions {
   gsis: number;
 }
 
+type IEmployerType = "govt" | "pvt";
+
 interface ITaxable {
   gross: number;
   taxable: number;
   nonTaxable: number;
   totalContribution: number;
+  deminimis: number;
 }
 
 interface IBracket {
@@ -23,4 +26,8 @@ interface ITaxSummary extends ITaxable {
   takeHome: number;
 }
 
-type IEmployerType = "govt" | "pvt";
+interface IIncomeForm {
+  monthly: string;
+  deminimis: string;
+  employerType: IEmployerType;
+}

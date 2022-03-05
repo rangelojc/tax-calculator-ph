@@ -3,7 +3,7 @@ import { Block } from "baseui/block";
 import { ChevronRight } from "baseui/icon";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { ALIGN, Radio, RadioGroup } from "baseui/radio";
-import { LabelLarge, LabelSmall } from "baseui/typography";
+import { LabelLarge, LabelSmall, ParagraphXSmall } from "baseui/typography";
 import React, { useEffect, useState } from "react";
 import { peso } from "../lib/util";
 
@@ -17,7 +17,20 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
       .filter((q) => q !== "children")
       .map((q) => q as keyof ITaxSummary)
       .reduce((val, key) => {
-        return { ...val, [key]: props[key] / divisor };
+        if (typeof props[key] == "object") {
+          val = {
+            ...val,
+            [key]: Object.keys(props[key]).reduce(
+              (v: any, k: string) => ({ ...v, [k]: v[k] / divisor }),
+              props[key]
+            ),
+          };
+        } else if (typeof props[key] == "string") {
+          val = { ...val, [key]: props[key] };
+        } else {
+          val = { ...val, [key]: (props[key] as number) / divisor };
+        }
+        return val;
       }, props);
     setSummary(sum);
   }, [divisor, props]);
@@ -28,19 +41,25 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
         <ListItem endEnhancer={() => peso.format(summary.gross)}>
           <ListItemLabel description>Gross Income</ListItemLabel>
         </ListItem>
-        <ListItem>
+        <ListItem endEnhancer={() => peso.format(summary.deminimis)}>
           <ListItemLabel>Non Taxable Income</ListItemLabel>
         </ListItem>
         <ListItem
           sublist
           artwork={ChevronRight}
-          endEnhancer={() => peso.format(summary.totalContribution)}
+          endEnhancer={() => peso.format(summary.deminimis)}
         >
-          <ListItemLabel sublist>Contributions</ListItemLabel>
+          <ListItemLabel sublist>De Minimis</ListItemLabel>
         </ListItem>
+
+        <ListItem endEnhancer={() => peso.format(summary.totalContribution)}>
+          <ListItemLabel>Contributions</ListItemLabel>
+        </ListItem>
+
         <ListItem endEnhancer={() => peso.format(summary.taxable)}>
           <ListItemLabel>Taxable Income</ListItemLabel>
         </ListItem>
+
         <Block
           backgroundColor={theme.colors.accent}
           color={"white"}
@@ -88,6 +107,11 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
         <Radio value="12">Monthly</Radio>
         <Radio value="24">Biweekly</Radio>
       </RadioGroup>
+
+      <ParagraphXSmall>
+        * Payroll for biweekly schedules usually deduct the contributions once a
+        month.
+      </ParagraphXSmall>
     </>
   );
 };
