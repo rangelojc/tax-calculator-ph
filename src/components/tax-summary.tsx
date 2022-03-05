@@ -2,14 +2,16 @@ import { useStyletron } from "baseui";
 import { Block } from "baseui/block";
 import { ChevronRight } from "baseui/icon";
 import { ListItem, ListItemLabel } from "baseui/list";
-import { LabelLarge, LabelSmall } from "baseui/typography";
+import { LabelLarge, LabelMedium, LabelSmall } from "baseui/typography";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { peso } from "../lib/util";
 import UnpaddedList from "./unpadded-list";
 
 const TaxSummary: React.FC<ITaxSummary> = (props) => {
   const [summary, setSummary] = useState(props);
   const [, theme] = useStyletron();
+  const { t } = useTranslation();
 
   const getDivisor = (period: ISummaryPeriod) => {
     switch (period) {
@@ -50,26 +52,44 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
   return (
     <>
       <UnpaddedList>
-        <ListItem endEnhancer={() => peso.format(summary.gross)}>
-          <ListItemLabel description>Gross Income</ListItemLabel>
+        <ListItem
+          endEnhancer={() => (
+            <LabelMedium>{peso.format(summary.gross)}</LabelMedium>
+          )}
+        >
+          <ListItemLabel description>{t("summary.gross.label")}</ListItemLabel>
         </ListItem>
-        <ListItem endEnhancer={() => peso.format(summary.deminimis)}>
-          <ListItemLabel>Non Taxable Income</ListItemLabel>
+        <ListItem
+          endEnhancer={() => (
+            <LabelMedium>{peso.format(summary.nonTaxable)}</LabelMedium>
+          )}
+        >
+          <ListItemLabel>{t("summary.nonTaxable.label")}</ListItemLabel>
         </ListItem>
         <ListItem
           sublist
-          artwork={ChevronRight}
-          endEnhancer={() => peso.format(summary.deminimis)}
+          artwork={() => <ChevronRight color={theme.colors.primary} />}
+          endEnhancer={() => (
+            <LabelMedium>{peso.format(summary.deminimis)}</LabelMedium>
+          )}
         >
-          <ListItemLabel sublist>De Minimis</ListItemLabel>
+          <ListItemLabel sublist>{t("summary.deminimis.label")}</ListItemLabel>
         </ListItem>
 
-        <ListItem endEnhancer={() => peso.format(summary.totalContribution)}>
-          <ListItemLabel>Contributions</ListItemLabel>
+        <ListItem
+          endEnhancer={() => (
+            <LabelMedium>{peso.format(summary.totalContribution)}</LabelMedium>
+          )}
+        >
+          <ListItemLabel>{t("summary.contributions.label")}</ListItemLabel>
         </ListItem>
 
-        <ListItem endEnhancer={() => peso.format(summary.taxable)}>
-          <ListItemLabel>Taxable Income</ListItemLabel>
+        <ListItem
+          endEnhancer={() => (
+            <LabelMedium>{peso.format(summary.taxable)}</LabelMedium>
+          )}
+        >
+          <ListItemLabel>{t("summary.taxable.label")}</ListItemLabel>
         </ListItem>
 
         <Block
@@ -86,7 +106,7 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
             {peso.format(summary.taxDue)}
           </LabelLarge>
           <LabelSmall color={theme.colors.buttonPrimaryText}>
-            Tax Due
+            {t("summary.taxDue.label")}
           </LabelSmall>
         </Block>
         <Block
@@ -105,7 +125,7 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
             )}
           </LabelLarge>
           <LabelSmall color={theme.colors.buttonPrimaryText}>
-            Take home pay
+            {t("summary.takeHome.label")}
           </LabelSmall>
         </Block>
       </UnpaddedList>
