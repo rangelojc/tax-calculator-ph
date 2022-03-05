@@ -8,12 +8,14 @@ import { ALIGN, Radio, RadioGroup } from "baseui/radio";
 import {
   LabelLarge,
   LabelSmall,
+  LabelXSmall,
   ParagraphMedium,
   ParagraphSmall,
 } from "baseui/typography";
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Contributions from "./components/contributions";
+import Form from "./components/form";
 import TaxSummary from "./components/tax-summary";
 import { computeContributions } from "./lib/contributions";
 import {
@@ -40,20 +42,24 @@ const InfoLink: React.FC<{ link: string; linkLabel: string }> = (props) => {
   );
 };
 
+const initialContributions = {
+  sss: 0,
+  sssMpf: 0,
+  gsis: 0,
+  pagibig: 0,
+  philHealth: 0,
+};
+
 function App() {
+  const [values, setValues] = useState<IIncomeForm>({
+    monthly: "20000",
+    deminimis: "",
+    employerType: "pvt",
+  });
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [use2023, setUse2023] = useState(false);
-  const [monthly, setMonthly] = useState("20000");
-  const [dirty, setDirty] = useState(false);
-  const [monthlyError, setMonthlyError] = useState<React.ReactNode | string>();
-  const [employerType, setEmployerType] = useState<IEmployerType>("pvt");
-  const [contributions, setContributions] = useState<IMandatoryContributions>({
-    sss: 0,
-    sssMpf: 0,
-    gsis: 0,
-    pagibig: 0,
-    philHealth: 0,
-  });
+  const [contributions, setContributions] =
+    useState<IMandatoryContributions>(initialContributions);
   const [summary, setSummary] = useState<ITaxSummary>({
     gross: 0,
     taxable: 0,
@@ -61,24 +67,32 @@ function App() {
     taxDue: 0,
     takeHome: 0,
     totalContribution: 0,
+    deminimis: 0,
   });
   const [, theme] = useStyletron();
 
-  const incomeHandler = (ev: any) => {
-    setDirty(true);
-    let input = ev.currentTarget.value ?? "0";
-    if (ev.currentTarget.value === "") setMonthlyError("Required");
-    else if (!/^[0-9]*$/.test(input))
-      setMonthlyError("Must only contain digits [0-9]");
-    else setMonthlyError(undefined);
-    setMonthly(input);
+  const validator = (val: IIncomeForm) => {
+    const errors: any = {};
+    if (!val.monthly) errors.monthly = "Required";
+    else if (!/^[0-9.]*$/.test(val.monthly))
+      errors.monthly = "Must only contain digits [0-9] and a decimal [.]";
+
+    if (!/^[0-9.]*$/.test(val.deminimis))
+      errors.deminimis = "Must only contain digits [0-9] and a decimal [.]";
+
+    return errors;
   };
 
   useEffect(() => {
-    let _monthly = isNaN(parseFloat(monthly)) ? 0 : parseFloat(monthly);
+    let _monthly = isNaN(parseFloat(values.monthly))
+      ? 0
+      : parseFloat(values.monthly);
+    let _deminimis = isNaN(parseFloat(values.deminimis))
+      ? 0
+      : parseFloat(values.deminimis);
     const annual = computeAnnual(_monthly);
-    const contributions = computeContributions(employerType, _monthly);
-    const taxable = computeTaxableIncome(annual, contributions, 0);
+    const contributions = computeContributions(values.employerType, _monthly);
+    const taxable = computeTaxableIncome(annual, contributions, _deminimis);
     setContributions(contributions);
     const taxDue = computeTaxDue(taxable.taxable, use2023 ? "2023" : "2018");
     setSummary({
@@ -86,7 +100,7 @@ function App() {
       taxDue,
       takeHome: taxable.gross - taxDue - taxable.totalContribution,
     });
-  }, [monthly, employerType, use2023]);
+  }, [values, use2023]);
 
   return (
     <>
@@ -109,47 +123,73 @@ function App() {
             <FlexGridItem>
               <Panel>
                 <LabelLarge>Income</LabelLarge>
-                <FormControl
-                  label={() => "Monthly Income"}
-                  caption={() => "Base monthly income"}
-                  error={monthlyError}
-                >
-                  <Input
-                    value={monthly}
-                    type={"number"}
-                    onChange={incomeHandler}
-                    positive={typeof monthlyError == "undefined" && dirty}
-                  />
-                </FormControl>
-                <FormControl label={() => "Employer Type"}>
-                  <RadioGroup
-                    value={employerType}
-                    onChange={(e) =>
-                      setEmployerType(e.currentTarget.value as IEmployerType)
-                    }
-                    name="number"
-                    align={ALIGN.vertical}
+                <LabelXSmall>Monthly</LabelXSmall>
+                <Block marginTop={theme.sizing.scale800}>
+                  <Form
+                    initialValues={values}
+                    validate={validator}
+                    valueSetter={setValues}
                   >
-                    <Radio
-                      value="pvt"
-                      description="Employed by a non-government institution"
-                    >
-                      Private
-                    </Radio>
-                    <Radio
-                      value="govt"
-                      description="Employed by a government institution"
-                    >
-                      Government
-                    </Radio>
-                  </RadioGroup>
-                </FormControl>
+                    {({ values, dirty, errors, handleChange }) => (
+                      <>
+                        <FormControl
+                          label={() => "Base salary"}
+                          caption={() => "Monthly salary"}
+                          error={errors.monthly}
+                        >
+                          <Input
+                            value={values.monthly}
+                            type={"number"}
+                            onChange={handleChange("monthly")}
+                            positive={!errors.monthly && dirty}
+                          />
+                        </FormControl>
+                        <FormControl label={() => "Employer Type"}>
+                          <RadioGroup
+                            value={values.employerType}
+                            onChange={handleChange("employerType")}
+                            name="number"
+                            align={ALIGN.vertical}
+                          >
+                            <Radio
+                              value="pvt"
+                              description="Employed by a non-government institution"
+                            >
+                              Private
+                            </Radio>
+                            <Radio
+                              value="govt"
+                              description="Employed by a government institution"
+                            >
+                              Government
+                            </Radio>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormControl
+                          label={() => "De Minimis Allowance"}
+                          caption={() =>
+                            "Monthly non-taxable allowance. i.e. (rice, meal, clothing, etc.)"
+                          }
+                          error={errors.deminimis}
+                        >
+                          <Input
+                            value={values.deminimis}
+                            type={"number"}
+                            onChange={handleChange("deminimis")}
+                            positive={!errors.deminimis && dirty}
+                          />
+                        </FormControl>
+                      </>
+                    )}
+                  </Form>
+                </Block>
               </Panel>
 
               <Panel style={{ marginTop: theme.sizing.scale800 }}>
                 <LabelLarge>Contributions</LabelLarge>
+                <LabelXSmall>Monthly</LabelXSmall>
                 <Contributions
-                  employerType={employerType}
+                  employerType={values.employerType}
                   contributions={contributions}
                 />
               </Panel>

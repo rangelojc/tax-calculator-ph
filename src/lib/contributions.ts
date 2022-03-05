@@ -1,3 +1,7 @@
+const bracket = (lower: number, upper: number) => (income: number) =>
+  (Number.isNaN(lower) || income >= lower) &&
+  (Number.isNaN(upper) || income <= upper);
+
 const computeSss = (salary: number) => {
   const matrix = [
     [1000, 3249.99, 135, 0],
@@ -47,10 +51,6 @@ const computeSss = (salary: number) => {
     [24750, NaN, 900, 225],
   ];
 
-  const bracket = (lower: number, upper: number) => (income: number) =>
-    (Number.isNaN(lower) || income >= lower) &&
-    (Number.isNaN(upper) || income <= upper);
-
   const sss = matrix
     .filter((q) => bracket(q[0], q[1])(salary))
     .reduce((p, q) => (p += q[2]), 0);
@@ -60,10 +60,17 @@ const computeSss = (salary: number) => {
   return { sss, mpf };
 };
 
-const computePhilHealth = (monthly: number) => {
-  const contrib = monthly * 0.03 * 0.5;
-  return contrib >= 1800 ? 1800 : contrib;
-};
+const philHealthTable = [
+  [NaN, 10000, () => 300],
+  [10000.01, 59999.99, (mon: number) => mon * 0.03],
+  [60000, NaN, () => 1800],
+];
+
+const computePhilHealth = (monthly: number) =>
+  philHealthTable
+    .filter((q) => bracket(q[0] as number, q[1] as number)(monthly))
+    .reduce((p, q) => (p += (q[2] as (mon: number) => number)(monthly)), 0) *
+  0.5;
 
 export const computeContributions = (
   employeeType: IEmployerType,
