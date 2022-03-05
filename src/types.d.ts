@@ -24,6 +24,7 @@ interface IBracket {
 interface ITaxSummary extends ITaxable {
   taxDue: number;
   takeHome: number;
+  period: ISummaryPeriod;
 }
 
 interface IIncomeForm {
@@ -31,3 +32,5 @@ interface IIncomeForm {
   deminimis: string;
   employerType: IEmployerType;
 }
+
+type ISummaryPeriod = "Annual" | "Monthly" | "Biweekly";

@@ -2,17 +2,29 @@ import { useStyletron } from "baseui";
 import { Block } from "baseui/block";
 import { ChevronRight } from "baseui/icon";
 import { ListItem, ListItemLabel } from "baseui/list";
-import { ALIGN, Radio, RadioGroup } from "baseui/radio";
-import { LabelLarge, LabelSmall, ParagraphXSmall } from "baseui/typography";
+import { LabelLarge, LabelSmall } from "baseui/typography";
 import React, { useEffect, useState } from "react";
 import { peso } from "../lib/util";
+import UnpaddedList from "./unpadded-list";
 
 const TaxSummary: React.FC<ITaxSummary> = (props) => {
-  const [divisor, setDivisor] = useState(1);
   const [summary, setSummary] = useState(props);
   const [, theme] = useStyletron();
 
+  const getDivisor = (period: ISummaryPeriod) => {
+    switch (period) {
+      case "Monthly":
+        return 12;
+      case "Biweekly":
+        return 24;
+      default:
+      case "Annual":
+        return 1;
+    }
+  };
+
   useEffect(() => {
+    const divisor = getDivisor(props.period);
     const sum = Object.keys(props)
       .filter((q) => q !== "children")
       .map((q) => q as keyof ITaxSummary)
@@ -33,11 +45,11 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
         return val;
       }, props);
     setSummary(sum);
-  }, [divisor, props]);
+  }, [props]);
 
   return (
     <>
-      <ul style={{ padding: 0 }}>
+      <UnpaddedList>
         <ListItem endEnhancer={() => peso.format(summary.gross)}>
           <ListItemLabel description>Gross Income</ListItemLabel>
         </ListItem>
@@ -96,22 +108,7 @@ const TaxSummary: React.FC<ITaxSummary> = (props) => {
             Take home pay
           </LabelSmall>
         </Block>
-      </ul>
-      <RadioGroup
-        value={divisor.toString()}
-        onChange={(e) => setDivisor(parseInt(e.currentTarget.value))}
-        name="number"
-        align={ALIGN.horizontal}
-      >
-        <Radio value="1">Annual</Radio>
-        <Radio value="12">Monthly</Radio>
-        <Radio value="24">Biweekly</Radio>
-      </RadioGroup>
-
-      <ParagraphXSmall>
-        * Payroll for biweekly schedules usually deduct the contributions once a
-        month.
-      </ParagraphXSmall>
+      </UnpaddedList>
     </>
   );
 };

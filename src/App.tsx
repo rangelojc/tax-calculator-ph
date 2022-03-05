@@ -11,6 +11,7 @@ import {
   LabelXSmall,
   ParagraphMedium,
   ParagraphSmall,
+  ParagraphXSmall,
 } from "baseui/typography";
 import React, { useEffect, useState } from "react";
 import "./App.css";
@@ -57,6 +58,7 @@ function App() {
     employerType: "pvt",
   });
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [period, setPeriod] = useState<ISummaryPeriod>("Annual");
   const [use2023, setUse2023] = useState(false);
   const [contributions, setContributions] =
     useState<IMandatoryContributions>(initialContributions);
@@ -68,6 +70,7 @@ function App() {
     takeHome: 0,
     totalContribution: 0,
     deminimis: 0,
+    period: "Annual",
   });
   const [, theme] = useStyletron();
 
@@ -99,8 +102,9 @@ function App() {
       ...taxable,
       taxDue,
       takeHome: taxable.gross - taxDue - taxable.totalContribution,
+      period,
     });
-  }, [values, use2023]);
+  }, [values, use2023, period]);
 
   return (
     <>
@@ -201,8 +205,25 @@ function App() {
                   padding: theme.sizing.scale800,
                 }}
               >
-                <LabelLarge>Summary</LabelLarge>
-                <TaxSummary {...summary} />
+                <LabelLarge marginBottom={theme.sizing.scale800}>
+                  Summary - {period}
+                </LabelLarge>
+                <TaxSummary {...summary} period={period} />
+                <RadioGroup
+                  value={period}
+                  onChange={(e) => setPeriod(e.currentTarget.value as any)}
+                  name="number"
+                  align={ALIGN.horizontal}
+                >
+                  <Radio value="Annual">Annual</Radio>
+                  <Radio value="Monthly">Monthly</Radio>
+                  <Radio value="Biweekly">Biweekly</Radio>
+                </RadioGroup>
+
+                <ParagraphXSmall>
+                  * Payroll for biweekly schedules usually deduct the
+                  contributions once a month.
+                </ParagraphXSmall>
               </Panel>
 
               <Panel
