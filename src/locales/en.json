@@ -1,0 +1,116 @@
+{
+  "translation": {
+    "dark": "Dark mode",
+    "errors": {
+      "required": "Required",
+      "numbersOnly": "Must only contain digits [0-9] and a decimal [.]"
+    },
+    "income": {
+      "title": "Income",
+      "subtitle": "Monthly",
+      "base": {
+        "label": "Base salary",
+        "desc": "Monthly salary"
+      },
+      "employerType": {
+        "label": "Employer type",
+        "govt": {
+          "label": "Government",
+          "desc": "Employed by a government instituion"
+        },
+        "pvt": {
+          "label": "Private",
+          "desc": "Employed by a non-government instituion"
+        }
+      },
+      "deminimis": {
+        "label": "De Minimis Allowance",
+        "desc": "Monthly allowance. i.e. (rice, meal, clothing, etc.)"
+      }
+    },
+    "contributions": {
+      "title": "Contributions",
+      "subtitle": "Monthly",
+      "sss": {
+        "label": "SSS"
+      },
+      "sssMpf": {
+        "label": "SSS",
+        "desc": "Mandatory Provident Fund (Employee)"
+      },
+      "gsis": {
+        "label": "GSIS"
+      },
+      "philHealth": {
+        "label": "PhilHealth"
+      },
+      "pagibig": {
+        "label": "Pag-ibig",
+        "desc": "Also displayed as HDMF on payslips"
+      },
+      "total": "Total"
+    },
+    "summary": {
+      "title": "Summary",
+      "gross": {
+        "label": "Gross income"
+      },
+      "nonTaxable": {
+        "label": "Non-taxable income"
+      },
+      "taxable": {
+        "label": "Taxable income"
+      },
+      "deminimis": {
+        "label": "De Minimis"
+      },
+      "contributions": {
+        "label": "Contributions"
+      },
+      "taxDue": {
+        "label": "Tax due"
+      },
+      "takeHome": {
+        "label": "Take home pay"
+      }
+    },
+    "info": {
+      "title": "Useful Information",
+      "where": "Where does your tax go?",
+      "ntrc": "National Tax Research Center",
+      "incomeTax": "Income tax reference",
+      "ra10963": "RA 10963 - Section 5",
+      "sss": "SSS contribution",
+      "circ2020033": "Circular 2020-033",
+      "gsis": "GSIS contribution",
+      "ra8291": "RA 8291 - Section 11",
+      "ra9679": "RA 9679 - RUle VI - Section 1",
+      "pagibig": "Pagibig contribution",
+      "philHealth": "PhilHealth contribution",
+      "philHealthContrib": "PhilHealth contribution table",
+      "good": "Good",
+      "article": "article",
+      "about": "about Withholding tax vs Income tax"
+    },
+    "period": {
+      "annual": "Annual",
+      "monthly": "Monthly",
+      "biweekly": "Biweekly",
+      "warning": "* Payroll for biweekly schedules usually deduct the contributions once a month."
+    },
+    "advanced": {
+      "show": "Show advanced options",
+      "hide": "Hide advanced options"
+    },
+    "2023": {
+      "title": "Tax rate option",
+      "on": "On January 1, 2023 the tax rates will change to something",
+      "lower": "lower",
+      "according": "according to",
+      "ra10963": "RA 10963",
+      "toggle": ", toggle the switch below to preview your tax rates then.",
+      "use": "Use 2023 Tax rates",
+      "lowerTax": " 🤑 🤑 🤑 \t\t Lower taxes!"
+    }
+  }
+}
