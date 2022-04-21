@@ -31,7 +31,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,json,md,css,scss,html}\"",
-    "format:fix": "prettier --write \"src/**/*.{ts,tsx,js,json,md,css,scss,html}\""
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx,js,json,md,css,scss,html}\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

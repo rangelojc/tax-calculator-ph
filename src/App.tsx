@@ -304,13 +304,9 @@ function App() {
           justifyContent={"center"}
           display={"flex"}
         >
-          <ParagraphMedium>Found this useful?</ParagraphMedium>
-          <StyledLink href="https://www.buymeacoffee.com/exkpSj2">
-            <img
-              alt="Buy me coffee"
-              src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=exkpSj2&button_colour=FFDD00&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=ffffff"
-            />
-          </StyledLink>
+          <ParagraphMedium>This is a fork of <a href="https://github.com/darylenterprises/ui.tax-calculator" style={{ color: "#276ef1" }}>darylenterprises/ui.tax-calculator</a></ParagraphMedium>
+          {/* <p style={{ textAlign: "right", marginRight: "10px", letterSpacing: "1px" }}>rangelo.dev</p> */}
+          <ParagraphSmall><span style={{ letterSpacing: "2px", cursor: "pointer" }} onClick={() => window.location.href = "https://rangelo.dev"}>rangelo.dev</span></ParagraphSmall>
         </Block>
       </Block>
     </>
