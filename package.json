@@ -2,6 +2,7 @@
   "name": "tax-calc",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
@@ -54,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^3.2.3",
     "prettier": "^2.5.1",
     "react-snap": "^1.23.0"
   }
